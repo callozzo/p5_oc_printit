@@ -17,21 +17,19 @@ const slides = [
 	}
 ]
 
-console.log(slides)
+const arrows = document.querySelectorAll(".arrow");
+const dots = [...document.querySelectorAll(".dot")];
+let img = document.querySelector(".banner-img");
+let imageActive = 0;
+let phrase = document.getElementById("string")
 
-let arrowLeft = document.getElementById("arrow_left");
-let arrowRight = document.getElementById("arrow_right");
-
-
-function leftClick() {
-	console.log("gauche")
-}
-
-function rightClick() {
-	console.log("droite")
-	
-}
-
-
-arrowLeft.addEventListener("click", leftClick)
-arrowRight.addEventListener("click", rightClick)
+arrows.forEach(arrow => {
+	arrow.addEventListener("click", (e) => { // cliquer = "click" + activation de "e"
+		imageActive += (e.target.id === "next" ? 1 : -1); //si l'id cliquer est different de "next" = -1, sinon +1
+		imageActive = (imageActive + slides.length) % slides.length; // produit en croix pour definir "imageActive"
+		img.src = `./assets/images/slideshow/${slides[imageActive].image}`; //ctrl+alt+7 pour renseigner le src et y ajouter une fonction 
+		phrase.innerHTML = slides[imageActive].tagLine;
+		dots.forEach (dot => dot.classList.remove("dot_selected"));
+		dots[imageActive].classList.add("dot_selected");
+	})
+});
